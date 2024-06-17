@@ -1,0 +1,8 @@
+
+Set-AzContext -SubscriptionId '3c8ea949-d4bd-4f3c-9725-532d5cd01b95'
+
+# below command Get-AzVM to Get the VM details
+$vm = Get-AzVM -ResourceGroupName 'challenge2' -Name 'dj-machine2'
+
+# Convert the VM details to JSON format
+$vm | ConvertTo-Json
