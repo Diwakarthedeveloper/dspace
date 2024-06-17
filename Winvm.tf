@@ -26,12 +26,37 @@ resource "azurerm_public_ip" "djpublicip" {
   resource_group_name = azurerm_resource_group.djgrp.name
   allocation_method   = "Dynamic"
 }
+
+resource "azurerm_network_security_group" "djnsg" {
+  name                = "dj-nsg"
+  location            = azurerm_resource_group.djgrp.location
+  resource_group_name = azurerm_resource_group.djgrp.name
+
+  security_rule {
+    name                       = "allow-rdp"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "3389"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_network_interface_security_group_association" "djnsg_association" {
+  network_interface_id      = azurerm_network_interface.djnetint.id
+  network_security_group_id = azurerm_network_security_group.djnsg.id
+}
+
+
 resource "azurerm_network_interface" "djnetint" {
   name                = "dj-nic"
   location            = azurerm_resource_group.djgrp.location
   resource_group_name = azurerm_resource_group.djgrp.name
 
-  
+
 
   ip_configuration {
     name                          = "djinternalip"
@@ -47,7 +72,7 @@ data "azurerm_key_vault" "dj_kv" {
   resource_group_name = "dj-keyvault-rg"
 }
 
-# Data source for the secret
+# Data source for the secret ..
 data "azurerm_key_vault_secret" "admin_password" {
   name         = "adminPassword"
   key_vault_id = data.azurerm_key_vault.dj_kv.id
@@ -69,12 +94,13 @@ resource "azurerm_windows_virtual_machine" "djwvm" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb         = 30
   }
 
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
+    sku       = "2019-Datacenter"
     version   = "latest"
   }
 
