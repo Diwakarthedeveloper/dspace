@@ -20,15 +20,24 @@ resource "azurerm_subnet" "djsubnet" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
+resource "azurerm_public_ip" "djpublicip" {
+  name                = "dj-public-ip"
+  location            = azurerm_resource_group.djgrp.location
+  resource_group_name = azurerm_resource_group.djgrp.name
+  allocation_method   = "Dynamic"
+}
 resource "azurerm_network_interface" "djnetint" {
   name                = "dj-nic"
   location            = azurerm_resource_group.djgrp.location
   resource_group_name = azurerm_resource_group.djgrp.name
 
+  
+
   ip_configuration {
     name                          = "djinternalip"
     subnet_id                     = azurerm_subnet.djsubnet.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.djpublicip.id
   }
 }
 ###########
@@ -51,8 +60,6 @@ resource "azurerm_windows_virtual_machine" "djwvm" {
   resource_group_name = azurerm_resource_group.djgrp.name
   location            = azurerm_resource_group.djgrp.location
   size                = "Standard_F2"
-  public_ip_address  = "Dynamic"
-  private_ip_address = "Dynamic"
   # admin_username      = "azureuser"
   # admin_password      = data.azurerm_key_vault_secret.admin_password.value
   network_interface_ids = [
