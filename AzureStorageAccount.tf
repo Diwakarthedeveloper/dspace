@@ -3,7 +3,7 @@ resource "azurerm_resource_group" "djgrp" { // resource type - azurerm_resource_
   location = "Central India"
 }
 
-##  Demo now
+#Below creating storage account
 resource "azurerm_storage_account" "DjStorageAccount" {
   name                     = "djstore"
   resource_group_name      = azurerm_resource_group.djgrp.name
