@@ -7,7 +7,7 @@ terraform {
     }
   }
   cloud {
-    organization = "Free Trial"
+    organization = "dspace"
     workspaces {
       name = "dspace"
     }
