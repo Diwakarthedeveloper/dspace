@@ -72,7 +72,7 @@ data "azurerm_key_vault" "dj_kv" {
   resource_group_name = "dj-keyvault-rg"
 }
 
-# Data source for the secret
+# Data source for the secret ..
 data "azurerm_key_vault_secret" "admin_password" {
   name         = "adminPassword"
   key_vault_id = data.azurerm_key_vault.dj_kv.id
