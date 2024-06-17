@@ -51,6 +51,8 @@ resource "azurerm_windows_virtual_machine" "djwvm" {
   resource_group_name = azurerm_resource_group.djgrp.name
   location            = azurerm_resource_group.djgrp.location
   size                = "Standard_F2"
+  public_ip_address  = "Dynamic"
+  private_ip_address = "Dynamic"
   # admin_username      = "azureuser"
   # admin_password      = data.azurerm_key_vault_secret.admin_password.value
   network_interface_ids = [
