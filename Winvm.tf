@@ -4,10 +4,10 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "djgrp" { // resource type - azurerm_resource_group, local name - djgrp
-  name     = "dj-resources"
-  location = "Central India"
-}
+# resource "azurerm_resource_group" "djgrp" { // resource type - azurerm_resource_group, local name - djgrp
+#   name     = "dj-resources"
+#   location = "Central India"
+# }
 
 resource "azurerm_virtual_network" "djnet" {
   name                = "dj-network"
